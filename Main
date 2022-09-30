@@ -2,7 +2,15 @@
 ---------------------------------------
 
 ----- // Function 1 // -----
-
+   --- / Walkspeed / ---
+game:GetService("RunService").Heartbeat:Connect(
+    function()
+        if cframespeedtoggle == true then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame +
+        game.Players.LocalPlayer.Character.Humanoid.MoveDirection * speedvalue
+    end
+end)
 ----- // Function 2 // -----
 
 ----- // Function 3 // -----
@@ -28,6 +36,8 @@ local Settings = Window:Page({Name = "Settings"})
 ----- // Windows // -----
 --------------------------------------------------------------------------------------
 local A1 = Aimbot:Section({Name = "Window 1", Side = "Left"})
+local Triggerbot = Aimbot:Section({Name = "Triggerbot", Side = "Right"})
+
 --------------------------------------------------------------------------------------
 local ESP = Visuals:Section({Name = "ESP", Side = "Left"})
 --------------------------------------------------------------------------------------
@@ -43,30 +53,14 @@ local Stuff = Miscellaneous:Section({Name = "Stuff", Side = "Left"})
 local Settings_Main = Settings:Section({Name = "Main", Side = "Left"})
 --------------------------------------------------------------------------------------
 
---- // Tab A1 Window 1 // ---
-
+--- // Triggerbot // ---
+Triggerbot:Toggle({Name = "Enable", Default = false, Pointer = "", Callback = function(Value)settings.Enabled = Value; end})
+Triggerbot:Label({Name = "Hold Left Alt Over A Player", Middle = false})
 --- // ESP // ---
-ESP:Toggle({Name = "Enable ESP", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Show Boxes", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Show Names", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Show Distance", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Show Health", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Show Tool", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Show Team", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-ESP:Toggle({Name = "Team Color", Default = false, Pointer = "", Callback = function(Boolean)
-    end})
-
 
 --- // Movement // ---
-Movement:Toggle({Name = "Enable Walkspeed", Default = false, Pointer = "", Callback = function(Boolean)
-    end}):Keybind({Default = Enum.KeyCode.E, KeybindName = "Aimbot", Mode = "Hold", Pointer = "AimbotMain_Bind"})
+Movement:Toggle({Name = "Walkspeed",Default = false,Pointer = "Player_Main_Enabled",Callback = function(Boolean) getgenv().cframespeedtoggle = Boolean end})
+Movement:Slider({Name = "Speed",Minimum = 0.1,Maximum = 5,Default = 0.5,Decimals = 0.1,Pointer = "YeahYeahImCool",Callback = function(Value) getgenv().speedvalue = Value end})
 --- // Main Locations // ---
 Spawn_Locations:Button({Name = "Main Spawn Defenders", Default = false, Pointer = ""})
 Spawn_Locations:Button({Name = "Main Spawn Raiders", Default = false, Pointer = ""})
@@ -75,16 +69,21 @@ Spawn_Locations:Button({Name = "Other Spawn Raiders", Default = false, Pointer =
 Extra_Locations:Button({Name = "Landing Pad", Default = false, Pointer = ""})
 Extra_Locations:Button({Name = "Water Canal", Default = false, Pointer = ""}) 
 --- // Docks Locations // ---
+Docks_Locations:Button({Name = "Terminal", Default = false, Pointer = ""}) 
 Docks_Locations:Button({Name = "Front Door", Default = false, Pointer = ""}) 
 Docks_Locations:Button({Name = "Side Door", Default = false, Pointer = ""}) 
 Docks_Locations:Button({Name = "Left Vent", Default = false, Pointer = ""}) 
 Docks_Locations:Button({Name = "Right Vent", Default = false, Pointer = ""}) 
 --- // Reactor Locations // ---
+Reactor_Locations:Button({Name = "Terminal", Default = false, Pointer = ""})
 Reactor_Locations:Button({Name = "Blast Door", Default = false, Pointer = ""})
 Reactor_Locations:Button({Name = "Left Vent", Default = false, Pointer = ""}) 
 Reactor_Locations:Button({Name = "Right Vent", Default = false, Pointer = ""}) 
 --- // Stuff // ---
-Stuff:Button({Name = "Open Sewer Door", Default = false, Pointer = ""})
+Stuff:Button({Name = "Toggle Main Gate", Default = false, Pointer = "", Callback = function(Value)
+local args = {[1] = true}game:GetService("ReplicatedStorage").Gate:FireServer(unpack(args)) end})
+Stuff:Button({Name = "Toggle Sewer Door", Default = false, Pointer = "", Callback = function(Value)
+game:GetService("ReplicatedStorage").Underground:FireServer() end})
 --- // Settings // ---
 Settings_Main:ConfigBox({})
 Settings_Main:ButtonHolder({Buttons = {{"Load", function() end}, {"Save", function() end}}})
@@ -93,3 +92,38 @@ Settings_Main:Button({Name = "Panic", Default = false, Pointer = ""})
 Settings_Main:Label({Name = "Unloading will fully unload\neverything, so save your\nconfig before unloading.", Middle = true})
 Settings_Main:Button({Name = "Unload", Callback = function() Window:Unload() end})
 Window:Initialize()
+
+---- testing 
+getgenv().settings = {
+   TeamCheck = false;
+   Delay = 0;
+   Keybind = Enum.KeyCode.LeftAlt;
+}
+
+local Holding = false
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:connect(function(key)
+   if key.KeyCode == getgenv().settings.Keybind and getgenv().settings.Enabled then
+       Holding = true
+       while Holding do wait()
+           if Mouse.Target and Players:FindFirstChild(Mouse.Target.Parent.Name) then
+               local HitPlayer = Players:FindFirstChild(Mouse.Target.Parent.Name)
+               if HitPlayer.Team ~= LocalPlayer.Team or not getgenv().settings.TeamCheck then
+                   if getgenv().settings.Delay > 0 then wait(getgenv().settings.Delay) end
+                   mouse1press(); wait(); mouse1release()
+               end
+           end
+           if not getgenv().settings.Enabled then break end
+       end
+   end
+end)
+
+UserInputService.InputEnded:connect(function(key)
+   if key.KeyCode == getgenv().settings.Keybind and getgenv().settings.Enabled then
+       Holding = false
+   end
+end)
