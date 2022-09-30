@@ -57,23 +57,25 @@ local Settings_Main = Settings:Section({Name = "Main", Side = "Left"})
 Triggerbot:Toggle({Name = "Enable", Default = false, Pointer = "", Callback = function(Value)settings.Enabled = Value; end})
 Triggerbot:Label({Name = "Hold Left Alt Over A Player", Middle = false})
 --- // ESP // ---
+ESP:Toggle({Name = "Enable", Default = false, Pointer = "", Callback = function(Boolean) end})
 
 --- // Movement // ---
 Movement:Toggle({Name = "Walkspeed",Default = false,Pointer = "Player_Main_Enabled",Callback = function(Boolean) getgenv().cframespeedtoggle = Boolean end})
 Movement:Slider({Name = "Speed",Minimum = 0.1,Maximum = 5,Default = 0.5,Decimals = 0.1,Pointer = "YeahYeahImCool",Callback = function(Value) getgenv().speedvalue = Value end})
 --- // Main Locations // ---
-Spawn_Locations:Button({Name = "Main Spawn Defenders", Default = false, Pointer = ""})
-Spawn_Locations:Button({Name = "Main Spawn Raiders", Default = false, Pointer = ""})
-Spawn_Locations:Button({Name = "Other Spawn Raiders", Default = false, Pointer = ""})
+Spawn_Locations:Button({Name = "Main Spawn Defenders", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1737.08862, 841.382324, 802.197937, -0.159536466, -1.01142362e-07, -0.987192035, 4.60625245e-08, 1, -1.09898586e-07, 0.987192035, -6.30053876e-08, -0.159536466) end})
+Spawn_Locations:Button({Name = "Main Spawn Raiders", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(42.074337, 723.743591, 442.147217, 0.00628789095, -4.80804863e-09, 0.999980211, 9.81439374e-09, 1, 4.74643036e-09, -0.999980211, 9.78435555e-09, 0.00628789095) end})
+Spawn_Locations:Button({Name = "Other Spawn Raiders", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(813.464966, 700.060364, 351.547241, 0.13470611, -1.38713068e-08, -0.990885615, 1.2109781e-09, 1, -1.38342715e-08, 0.990885615, 6.63620159e-10, 0.13470611) end})
 --- // Extra Locations // ---
-Extra_Locations:Button({Name = "Landing Pad", Default = false, Pointer = ""})
-Extra_Locations:Button({Name = "Water Canal", Default = false, Pointer = ""}) 
+Extra_Locations:Button({Name = "Landing Pad", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1389.95312, 841.938782, 746.985779, 0.133743763, -8.88456739e-08, 0.991015971, -5.0629998e-09, 1, 9.03343889e-08, -0.991015971, -1.70991736e-08, 0.133743763) end}) 
+Extra_Locations:Button({Name = "Water Canal", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1143.79565, 683.374817, 491.63916, -0.00181997695, 5.05624076e-09, -0.999998331, 4.93345254e-10, 1, 5.05535125e-09, 0.999998331, -4.84143781e-10, -0.00181997695) end}) 
 --- // Docks Locations // ---
-Docks_Locations:Button({Name = "Terminal", Default = false, Pointer = ""}) 
-Docks_Locations:Button({Name = "Front Door", Default = false, Pointer = ""}) 
-Docks_Locations:Button({Name = "Side Door", Default = false, Pointer = ""}) 
-Docks_Locations:Button({Name = "Left Vent", Default = false, Pointer = ""}) 
-Docks_Locations:Button({Name = "Right Vent", Default = false, Pointer = ""}) 
+Docks_Locations:Button({Name = "Terminal", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1662.91052, 704.512512, 201.111237, 0.388454199, -5.52363311e-08, 0.921468019, 2.65775917e-08, 1, 4.87397855e-08, -0.921468019, 5.55722712e-09, 0.388454199) end}) 
+Docks_Locations:Button({Name = "Roof", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1566.02185, 836.375427, 172.924301, 0.402872473, -7.16181532e-08, 0.915256143, 1.04943886e-07, 1, 3.20556737e-08, -0.915256143, 8.31361859e-08, 0.402872473) end}) 
+Docks_Locations:Button({Name = "Front Door", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1464.41846, 698.77478, 115.555214, -0.382644773, -1.07525786e-07, -0.923895538, -1.37940397e-08, 1, -1.10670058e-07, 0.923895538, -2.96030667e-08, -0.382644773) end}) 
+Docks_Locations:Button({Name = "Side Door", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1667.25903, 698.774841, 48.8291969, -0.919924676, 4.85048481e-08, 0.392095149, -7.20524795e-09, 1, -1.40611618e-07, -0.392095149, -1.32177234e-07, -0.919924676) end}) 
+Docks_Locations:Button({Name = "Left Vent", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1555.71826, 789.285095, 304.42041, -0.918372929, -2.17958771e-08, 0.395716041, -5.05265625e-08, 1, -6.2181833e-08, -0.395716041, -7.71002817e-08, -0.918372929) end}) 
+Docks_Locations:Button({Name = "Right Vent", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1636.77271, 789.288818, 92.7156372, 0.915552557, 2.47291929e-08, -0.402198315, -1.60888181e-09, 1, 5.78226604e-08, 0.402198315, -5.22925951e-08, 0.915552557) end}) 
 --- // Reactor Locations // ---
 Reactor_Locations:Button({Name = "Terminal", Default = false, Pointer = ""})
 Reactor_Locations:Button({Name = "Blast Door", Default = false, Pointer = ""})
@@ -127,3 +129,4 @@ UserInputService.InputEnded:connect(function(key)
        Holding = false
    end
 end)
+-- test again
