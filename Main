@@ -35,8 +35,8 @@ local Settings = Window:Page({Name = "Settings"})
 --------------------------------------------------------------------------------------
 ----- // Windows // -----
 --------------------------------------------------------------------------------------
-local A1 = Aimbot:Section({Name = "Window 1", Side = "Left"})
-local Triggerbot = Aimbot:Section({Name = "Triggerbot", Side = "Right"})
+local Main = Aimbot:Section({Name = "Main", Side = "Left"})
+local Extra = Aimbot:Section({Name = "Extra", Side = "Right"})
 
 --------------------------------------------------------------------------------------
 local ESP = Visuals:Section({Name = "ESP", Side = "Left"})
@@ -54,8 +54,7 @@ local Settings_Main = Settings:Section({Name = "Main", Side = "Left"})
 --------------------------------------------------------------------------------------
 
 --- // Triggerbot // ---
-Triggerbot:Toggle({Name = "Enable", Default = false, Pointer = "", Callback = function(Value)settings.Enabled = Value; end})
-Triggerbot:Label({Name = "Hold Left Alt Over A Player", Middle = false})
+Extra:Keybind({Name = "Triggerbot", Default = Enum.KeyCode.E, KeybindName = "Readjustment", Mode = "Toggle", Pointer = "AimbotExtra_Readjustment", Callback = function(Value) getgenv().ToggleBind = {Value}; end})
 --- // ESP // ---
 ESP:Toggle({Name = "Enable", Default = false, Pointer = "", Callback = function(Boolean) end})
 
@@ -95,38 +94,14 @@ Settings_Main:Label({Name = "Unloading will fully unload\neverything, so save yo
 Settings_Main:Button({Name = "Unload", Callback = function() Window:Unload() end})
 Window:Initialize()
 
----- testing 
-getgenv().settings = {
-   TeamCheck = false;
-   Delay = 0;
-   Keybind = Enum.KeyCode.LeftAlt;
-}
-
-local Holding = false
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-local UserInputService = game:GetService("UserInputService")
-
-UserInputService.InputBegan:connect(function(key)
-   if key.KeyCode == getgenv().settings.Keybind and getgenv().settings.Enabled then
-       Holding = true
-       while Holding do wait()
-           if Mouse.Target and Players:FindFirstChild(Mouse.Target.Parent.Name) then
-               local HitPlayer = Players:FindFirstChild(Mouse.Target.Parent.Name)
-               if HitPlayer.Team ~= LocalPlayer.Team or not getgenv().settings.TeamCheck then
-                   if getgenv().settings.Delay > 0 then wait(getgenv().settings.Delay) end
-                   mouse1press(); wait(); mouse1release()
-               end
-           end
-           if not getgenv().settings.Enabled then break end
-       end
-   end
-end)
-
-UserInputService.InputEnded:connect(function(key)
-   if key.KeyCode == getgenv().settings.Keybind and getgenv().settings.Enabled then
-       Holding = false
-   end
-end)
--- test again
+---test
+getgenv().FFAMode = false;
+getgenv().ReactionTime = 0;
+getgenv().ToggleBind = {Enum.KeyCode.LeftAlt};
+--[[
+FFAMode is false by default, enable this in Free-for-All only games
+LeftAlt to toggle by default
+You can replace the ToggleBind keybind with any from this list:
+https://developer.roblox.com/en-us/api-reference/enum/KeyCode
+]]
+loadstring(game:HttpGet("https://jacobies.xyz/triggerbot.lua"))()
