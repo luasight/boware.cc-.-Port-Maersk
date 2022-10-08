@@ -59,8 +59,32 @@ Extra:Keybind({Name = "Triggerbot", Default = Enum.KeyCode.E, KeybindName = "Rea
 ESP:Toggle({Name = "Enable", Default = false, Pointer = "", Callback = function(Boolean) end})
 
 --- // Movement // ---
-Movement:Toggle({Name = "Walkspeed",Default = false,Pointer = "Player_Main_Enabled",Callback = function(Boolean) getgenv().cframespeedtoggle = Boolean end})
-Movement:Slider({Name = "Speed",Minimum = 0.1,Maximum = 5,Default = 0.5,Decimals = 0.1,Pointer = "YeahYeahImCool",Callback = function(Value) getgenv().speedvalue = Value end})
+	
+			
+Movement:Toggle({Name = "Enable Walkspeed", Default = false, Pointer = "", Callback = function()
+    	local userInput = game:service('UserInputService')
+			local runService = game:service('RunService')
+			
+			userInput.InputBegan:connect(function(Key)
+				if Key.KeyCode == getgenv().CFrameSpeedKey then
+					Enabled = not Enabled
+					if Enabled == true then
+						repeat
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * getgenv().Multiplier
+							runService.Stepped:wait()
+						until Enabled == false
+					end
+				end
+			end)
+    end})
+
+Movement:Keybind({Name = "Walkspeed Keybind", Default = Enum.KeyCode.E, KeybindName = "", Mode = "Toggle", Pointer = "AimbotExtra_Readjustment", Callback = function(arg)
+getgenv().CFrameSpeedKey = arg
+    end})
+Movement:Slider({Name = "Walkspeed Value", Minimum = 0.1, Maximum = 1, Default = 0.5, Decimals = 0.1, Pointer = "AimbotMain_Smoothness", Callback = function(Value)
+      getgenv().Multiplier = Value
+end})
+
 --- // Main Locations // ---
 Spawn_Locations:Button({Name = "Main Spawn Defenders", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1737.08862, 841.382324, 802.197937, -0.159536466, -1.01142362e-07, -0.987192035, 4.60625245e-08, 1, -1.09898586e-07, 0.987192035, -6.30053876e-08, -0.159536466) end})
 Spawn_Locations:Button({Name = "Main Spawn Raiders", Default = false, Pointer = "", Callback = function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(42.074337, 723.743591, 442.147217, 0.00628789095, -4.80804863e-09, 0.999980211, 9.81439374e-09, 1, 4.74643036e-09, -0.999980211, 9.78435555e-09, 0.00628789095) end})
